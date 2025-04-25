@@ -394,7 +394,7 @@ export default function AdminDashboard() {
   // Get row background color based on status
   const getRowBackgroundColor = (status: SubmissionStatus, isRecentSubmission: boolean, is1107Submission: boolean) => {
     if (is1107Submission) return "bg-blue-100"
-    if (isRecentSubmission) return "bg-blue-50"
+    if (isRecentSubmission) return ""
 
     switch (status) {
       case "pending":
