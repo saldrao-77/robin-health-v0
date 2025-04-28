@@ -87,6 +87,9 @@ export function LeadForm() {
       imagingType: formElement.imaging.value,
       bodyPart: showAdditionalFields ? formElement.bodyPart.value : undefined,
       hasOrder: showAdditionalFields ? formElement.doctorOrder.value === "yes" : undefined,
+      headers: {
+        referer: window.location.href,
+      },
     }
 
     try {

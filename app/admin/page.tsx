@@ -18,6 +18,7 @@ type LeadSubmission = {
   processed: boolean
   engaged: boolean
   notes: string | null
+  utm_source: string | null
 }
 
 // Define status type for better type safety
@@ -48,6 +49,7 @@ export default function AdminDashboard() {
     has_order: false,
     status: "pending" as SubmissionStatus,
     notes: "",
+    utm_source: "",
   })
   const [latestSubmissions, setLatestSubmissions] = useState<LeadSubmission[]>([])
   const [showLatestInfo, setShowLatestInfo] = useState(false)
@@ -278,6 +280,7 @@ export default function AdminDashboard() {
             processed,
             engaged,
             notes: newSubmission.notes || null,
+            utm_source: newSubmission.utm_source || null,
           },
         ])
         .select()
@@ -295,6 +298,7 @@ export default function AdminDashboard() {
         has_order: false,
         status: "pending",
         notes: "",
+        utm_source: "",
       })
       setShowNewRowForm(false)
 
@@ -338,6 +342,7 @@ export default function AdminDashboard() {
       "Imaging Type",
       "Body Part",
       "Has Order",
+      "UTM Source",
       "Created At",
       "Status",
       "Notes",
@@ -355,6 +360,7 @@ export default function AdminDashboard() {
           sub.imaging_type,
           sub.body_part || "",
           sub.has_order === null ? "" : sub.has_order ? "Yes" : "No",
+          sub.utm_source || "",
           new Date(sub.created_at).toLocaleString(),
           status.charAt(0).toUpperCase() + status.slice(1),
           sub.notes ? `"${sub.notes.replace(/"/g, '""')}"` : "",
@@ -603,6 +609,18 @@ export default function AdminDashboard() {
                   </select>
                 </div>
                 <div>
+                  <label htmlFor="utm_source" className="block text-sm font-medium text-gray-700 mb-1">
+                    UTM Source
+                  </label>
+                  <input
+                    type="text"
+                    id="utm_source"
+                    className="block w-full border border-gray-300 rounded-md p-2"
+                    value={newSubmission.utm_source || ""}
+                    onChange={(e) => setNewSubmission({ ...newSubmission, utm_source: e.target.value })}
+                  />
+                </div>
+                <div>
                   <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
                     Status
                   </label>
@@ -780,6 +798,12 @@ export default function AdminDashboard() {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
+                        UTM Source
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Notes
                       </th>
                       <th
@@ -840,6 +864,9 @@ export default function AdminDashboard() {
                               Has Order:{" "}
                               {submission.has_order === null ? "Unknown" : submission.has_order ? "Yes" : "No"}
                             </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">{submission.utm_source || ""}</div>
                           </td>
                           <td className="px-6 py-4">
                             {editingId === submission.id ? (
