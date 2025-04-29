@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { Navigation } from "@/components/navigation"
-import { Shield, Clock, CheckCircle } from "lucide-react"
+import { Shield, Clock, CheckCircle, Globe } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import { ChatPopup } from "@/components/chat-popup"
 import { SiteFooter } from "@/components/site-footer"
@@ -19,6 +19,7 @@ export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [activeTestimonial, setActiveTestimonial] = useState(0)
   const heroRef = useRef<HTMLDivElement>(null)
+  const [language, setLanguage] = useState("en")
 
   // Check if mobile on mount and when window resizes
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function Home() {
       location: "Dallas, Texas",
       image: "/images/linda-new.png",
       quote:
-        "I was in pain, overwhelmed by costs, and had no idea where to start. Robin Health found me a nearby MRI for hundreds less than the hospital, booked it fast, and locked in the price—no surprises.",
+        "I was nervous about paying cash for my scan, but Robin Health made the entire process so transparent and easy. They found me a high-quality imaging center at a fraction of what my insurance would have charged. The care team was incredibly helpful and responsive throughout the entire process.",
     },
     {
       name: "Dave",
@@ -112,16 +113,49 @@ export default function Home() {
             />
           </Link>
         </div>
-        <div className="hidden md:block">
-          <Navigation color="dark" />
+        <div className="hidden md:flex items-center">
+          <Navigation color="dark" language={language} />
+
+          {/* Language Selector - Always visible */}
+          <div className="relative ml-6">
+            <button
+              onClick={() => {
+                const newLang = language === "en" ? "es" : "en"
+                localStorage.setItem("preferredLanguage", newLang)
+                setLanguage(newLang)
+                window.dispatchEvent(new CustomEvent("languageChange", { detail: { language: newLang } }))
+              }}
+              className="flex items-center gap-1 text-gray-700 hover:text-blue-600 font-medium p-2 rounded-md hover:bg-gray-100"
+              aria-label={language === "en" ? "Change language" : "Cambiar idioma"}
+            >
+              <Globe size={18} />
+              <span>{language === "en" ? "English" : "Español"}</span>
+            </button>
+          </div>
         </div>
-        <button
-          className="md:hidden text-gray-700 focus:outline-none p-2 rounded-md hover:bg-gray-100"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle mobile menu"
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="md:hidden flex items-center">
+          {/* Mobile Language Selector - Always visible */}
+          <button
+            onClick={() => {
+              const newLang = language === "en" ? "es" : "en"
+              localStorage.setItem("preferredLanguage", newLang)
+              setLanguage(newLang)
+              window.dispatchEvent(new CustomEvent("languageChange", { detail: { language: newLang } }))
+            }}
+            className="mr-2 text-gray-700 p-2 rounded-md hover:bg-gray-100"
+            aria-label={language === "en" ? "Change language" : "Cambiar idioma"}
+          >
+            <Globe size={20} />
+          </button>
+
+          <button
+            className="text-gray-700 focus:outline-none p-2 rounded-md hover:bg-gray-100"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
@@ -189,11 +223,11 @@ export default function Home() {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">We fight for a fair scan price.</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Our mission is to make quality healthcare accessible and affordable for everyone.
+                We help you find affordable medical imaging quickly, so you can get the care you need without delay.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8 mb-16">
+            <div className="grid md:grid-cols-3 lg:grid-cols-3 gap-8 mb-16">
               <div className="bg-blue-50 rounded-xl p-8 text-center transform transition-transform hover:scale-105 duration-300">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
                   <svg
@@ -266,6 +300,7 @@ export default function Home() {
                 <p className="text-lg">local imaging centers</p>
               </div>
 
+              {/* New tile for deductible */}
               <div className="bg-blue-50 rounded-xl p-8 text-center transform transition-transform hover:scale-105 duration-300">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
                   <svg
@@ -279,7 +314,58 @@ export default function Home() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <p className="text-sm uppercase tracking-wider text-gray-500 mb-1">Payments</p>
+                <p className="text-4xl font-bold text-blue-600 mb-1">100%</p>
+                <p className="text-lg">count toward deductible</p>
+                <p className="text-xs mt-1">
+                  <span className="text-gray-600">{language === "en" ? "Learn more " : "Más información "}</span>
+                  <Link href="/faq#deductible" className="text-blue-600 hover:underline">
+                    {language === "en" ? "here" : "aquí"}
+                  </Link>
+                </p>
+              </div>
+
+              {/* New tile for booking speed */}
+              <div className="bg-blue-50 rounded-xl p-8 text-center transform transition-transform hover:scale-105 duration-300">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-blue-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <p className="text-sm uppercase tracking-wider text-gray-500 mb-1">Average</p>
+                <p className="text-4xl font-bold text-blue-600 mb-1">3</p>
+                <p className="text-lg">days to book scan</p>
+              </div>
+
+              <div className="bg-blue-50 rounded-xl p-8 text-center transform transition-transform hover:scale-105 duration-300">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-blue-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 7 0 00-7-7z"
                     />
                   </svg>
                 </div>
@@ -289,8 +375,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* See the difference section */}
-            <div className="mb-16">
+            {/* See the difference section - with different background color */}
+            <div className="mb-16 bg-gray-50 p-8 rounded-xl">
               <h3 className="text-2xl font-bold mb-4 text-center">Same MRI, different price</h3>
               <p className="text-center text-gray-700 mb-2 max-w-3xl mx-auto">
                 These two facilities use the same MRI machine, in the same zip code. Customer A paid $2,280 for their
@@ -352,9 +438,11 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="max-w-4xl mx-auto mt-8 bg-blue-600 text-white p-6 rounded-xl text-center shadow-lg">
-                <p className="text-2xl font-bold">Save up to 90% on your medical imaging</p>
-                <p className="mt-2 text-blue-100">No hidden fees. No surprise bills. Just transparent pricing.</p>
+              <div className="max-w-4xl mx-auto mt-8">
+                <div className="bg-blue-600 text-white p-6 rounded-xl text-center shadow-lg">
+                  <p className="text-2xl font-bold">Save up to 90% on your medical imaging</p>
+                  <p className="mt-2 text-blue-100">No hidden fees. No surprise bills. Just transparent pricing.</p>
+                </div>
               </div>
             </div>
 
@@ -473,11 +561,15 @@ export default function Home() {
                   <div className="absolute -top-3 -left-3 bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-2xl shadow-md">
                     1
                   </div>
-                  <h3 className="font-bold text-3xl text-blue-800 mb-3">Submit request</h3>
+                  <h3 className="font-bold text-3xl text-blue-800 mb-3">Get pricing fast</h3>
                   <div className="bg-blue-50 rounded-md px-3 py-1.5 text-blue-600 font-medium text-lg inline-block mb-3">
                     Instant
                   </div>
-                  <p className="text-gray-700 text-xl">Tell us what scan you need and where you are.</p>
+                  <p className="text-gray-700 text-xl">
+                    {language === "en"
+                      ? "We'll find you the best cash-pay prices at fully accredited, high-quality imaging centers near you—fast."
+                      : "Te encontraremos los mejores precios de pago en efectivo en centros de imágenes de alta calidad y totalmente acreditados cerca de ti."}
+                  </p>
                 </div>
 
                 {/* Step 2 */}
@@ -485,13 +577,14 @@ export default function Home() {
                   <div className="absolute -top-3 -left-3 bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-2xl shadow-md">
                     2
                   </div>
-                  <h3 className="font-bold text-3xl text-blue-800 mb-3">Get pricing fast</h3>
+                  <h3 className="font-bold text-3xl text-blue-800 mb-3">Confirm and pay</h3>
                   <div className="bg-blue-50 rounded-md px-3 py-1.5 text-blue-600 font-medium text-lg inline-block mb-3">
                     24 hours
                   </div>
                   <p className="text-gray-700 text-xl">
-                    We'll find you the best cash-pay prices at fully accredited, high-quality imaging centers in your
-                    neighborhood.
+                    {language === "en"
+                      ? "Once we find a scan that meets your needs, you'll confirm your appointment and pay a one-time $25 booking fee. If we don't save you at least $100, we'll refund you — no questions asked."
+                      : "Una vez que encontremos un escaneo que satisfaga tus necesidades, confirmarás tu cita y pagarás una tarifa única de reserva de $25. Si no te ahorramos al menos $100, te reembolsaremos, sin preguntas."}
                   </p>
                 </div>
 
@@ -502,10 +595,12 @@ export default function Home() {
                   </div>
                   <h3 className="font-bold text-3xl text-blue-800 mb-3">Book your scan</h3>
                   <div className="bg-blue-50 rounded-md px-3 py-1.5 text-blue-600 font-medium text-lg inline-block mb-3">
-                    24-72 hours
+                    {language === "en" ? "Average 3 days" : "Promedio 3 días"}
                   </div>
                   <p className="text-gray-700 text-xl">
-                    We'll handle scheduling and make an appointment ASAP at an imaging center near you.
+                    {language === "en"
+                      ? "We'll handle scheduling and make an appointment within 3 days at an imaging center near you."
+                      : "Nos encargaremos de la programación y haremos una cita dentro de 3 días en un centro de imágenes cerca de ti."}
                   </p>
                 </div>
 

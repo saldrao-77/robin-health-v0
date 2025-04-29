@@ -1,7 +1,31 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import Image from "next/image"
 
 export function SiteFooter() {
   const phoneNumber = "2625018982"
+  const [language, setLanguage] = useState("en")
+
+  // Listen for language changes
+  useEffect(() => {
+    // Check for stored language preference
+    const storedLanguage = localStorage.getItem("preferredLanguage")
+    if (storedLanguage) {
+      setLanguage(storedLanguage)
+    }
+
+    // Listen for language change events
+    const handleLanguageChange = (event: any) => {
+      setLanguage(event.detail.language)
+    }
+
+    window.addEventListener("languageChange", handleLanguageChange)
+
+    return () => {
+      window.removeEventListener("languageChange", handleLanguageChange)
+    }
+  }, [])
 
   return (
     <footer className="bg-gray-900 text-white py-16">
@@ -19,28 +43,34 @@ export function SiteFooter() {
               />
             </div>
             <p className="text-gray-300 mb-4 text-center md:text-left">
-              Making quality healthcare accessible and affordable for everyone.
+              {language === "en"
+                ? "Making quality healthcare accessible and affordable for everyone."
+                : "Haciendo que la atención médica de calidad sea accesible y asequible para todos."}
             </p>
-            <p className="text-xl font-semibold text-[#e94e4e]">We fight for a fair scan price.</p>
+            <p className="text-xl font-semibold text-[#e94e4e]">
+              {language === "en" ? "We fight for a fair scan price." : "Luchamos por un precio justo de escaneo."}
+            </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-bold mb-6 border-b border-gray-700 pb-2">Quick Links</h3>
+            <h3 className="text-xl font-bold mb-6 border-b border-gray-700 pb-2">
+              {language === "en" ? "Quick Links" : "Enlaces Rápidos"}
+            </h3>
             <ul className="space-y-3">
               <li>
                 <a href="/" className="text-gray-300 hover:text-white transition-colors">
-                  Home
+                  {language === "en" ? "Home" : "Inicio"}
                 </a>
               </li>
               <li>
                 <a href="/about" className="text-gray-300 hover:text-white transition-colors">
-                  About Us
+                  {language === "en" ? "About Us" : "Sobre Nosotros"}
                 </a>
               </li>
               <li>
                 <a href="/faq" className="text-gray-300 hover:text-white transition-colors">
-                  FAQ
+                  {language === "en" ? "FAQ" : "Preguntas Frecuentes"}
                 </a>
               </li>
             </ul>
@@ -48,7 +78,9 @@ export function SiteFooter() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-xl font-bold mb-6 border-b border-gray-700 pb-2">Contact Us</h3>
+            <h3 className="text-xl font-bold mb-6 border-b border-gray-700 pb-2">
+              {language === "en" ? "Contact Us" : "Contáctanos"}
+            </h3>
             <div className="space-y-4">
               <div className="flex items-center">
                 <svg
@@ -117,7 +149,9 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
-          <p>© 2025 Robin Health, Inc. All Rights Reserved.</p>
+          <p>
+            © 2025 Robin Health, Inc. {language === "en" ? "All Rights Reserved." : "Todos los derechos reservados."}
+          </p>
         </div>
       </div>
     </footer>

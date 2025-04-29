@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { submitLeadForm } from "@/app/actions/submit-form"
 import { X } from "lucide-react"
 
@@ -33,7 +33,28 @@ export function LeadForm() {
   const [showAdditionalFields, setShowAdditionalFields] = useState(false)
   const [showThankYouPopup, setShowThankYouPopup] = useState(false)
   const [phoneValue, setPhoneValue] = useState("")
+  const [language, setLanguage] = useState("en")
   const phoneNumber = "2625018982"
+
+  // Listen for language changes
+  useEffect(() => {
+    // Check for stored language preference
+    const storedLanguage = localStorage.getItem("preferredLanguage")
+    if (storedLanguage) {
+      setLanguage(storedLanguage)
+    }
+
+    // Listen for language change events
+    const handleLanguageChange = (event: any) => {
+      setLanguage(event.detail.language)
+    }
+
+    window.addEventListener("languageChange", handleLanguageChange)
+
+    return () => {
+      window.removeEventListener("languageChange", handleLanguageChange)
+    }
+  }, [])
 
   // Function to format phone number as user types
   const formatPhoneNumber = (value: string) => {
@@ -118,7 +139,10 @@ export function LeadForm() {
           // Both database and local storage failed
           setMessage({
             type: "error",
-            text: "Unable to submit form. Please try again or contact us directly.",
+            text:
+              language === "en"
+                ? "Unable to submit form. Please try again or contact us directly."
+                : "No se pudo enviar el formulario. Inténtelo de nuevo o contáctenos directamente.",
           })
         }
       }
@@ -138,7 +162,10 @@ export function LeadForm() {
       } else {
         setMessage({
           type: "error",
-          text: "An unexpected error occurred. Please try again or contact us directly.",
+          text:
+            language === "en"
+              ? "An unexpected error occurred. Please try again or contact us directly."
+              : "Ocurrió un error inesperado. Inténtelo de nuevo o contáctenos directamente.",
         })
       }
     } finally {
@@ -149,13 +176,27 @@ export function LeadForm() {
   return (
     <div className="bg-white/90 rounded-lg p-4 md:p-6 shadow-lg">
       <h2 className="text-center text-gray-600 mb-3 md:mb-4 text-sm md:text-base">
-        Looking for the best scan price near you? We find the lowest-cost, high-quality imaging options in your
-        neighborhood. For just a{" "}
-        <span className="font-bold text-blue-600 relative inline-block">
-          <span className="relative z-10">$25 fee</span>
-          <span className="absolute inset-0 bg-blue-100 rounded-md -z-0 transform -rotate-1"></span>
-        </span>{" "}
-        if we book your scan—refunded if we don't save you at least $100.
+        {language === "en" ? (
+          <>
+            Tired of overpriced scans and endless wait times? We'll find you an affordable, high-quality MRIs, CTs, and
+            more near you — fast. You'll only pay our{" "}
+            <span className="font-bold text-blue-600 relative inline-block">
+              <span className="relative z-10">$25 booking fee</span>
+              <span className="absolute inset-0 bg-blue-100 rounded-md -z-0 transform -rotate-1"></span>
+            </span>{" "}
+            once your appointment is confirmed — and if we don't save you at least $100, it's on us.
+          </>
+        ) : (
+          <>
+            ¿Cansado de escaneos caros y tiempos de espera interminables? Te encontraremos resonancias magnéticas,
+            tomografías computarizadas y más asequibles y de alta calidad cerca de ti, rápidamente. Solo pagarás nuestra{" "}
+            <span className="font-bold text-blue-600 relative inline-block">
+              <span className="relative z-10">tarifa de reserva de $25</span>
+              <span className="absolute inset-0 bg-blue-100 rounded-md -z-0 transform -rotate-1"></span>
+            </span>{" "}
+            una vez que se confirme tu cita, y si no te ahorramos al menos $100, corre por nuestra cuenta.
+          </>
+        )}
       </h2>
 
       {message && (
@@ -169,14 +210,14 @@ export function LeadForm() {
       <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
         <div>
           <label htmlFor="zipcode" className="block text-sm font-medium text-gray-700 mb-1">
-            Zip code
+            {language === "en" ? "Zip code" : "Código postal"}
           </label>
           <input
             type="text"
             id="zipcode"
             name="zipcode"
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter your zip code"
+            placeholder={language === "en" ? "Enter your zip code" : "Ingresa tu código postal"}
             required
             maxLength={5}
             pattern="[0-9]{5}"
@@ -185,7 +226,7 @@ export function LeadForm() {
 
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-            Mobile phone
+            {language === "en" ? "Mobile phone" : "Teléfono móvil"}
           </label>
           <input
             type="tel"
@@ -201,7 +242,7 @@ export function LeadForm() {
 
         <div>
           <label htmlFor="imaging" className="block text-sm font-medium text-gray-700 mb-1">
-            Imaging needed
+            {language === "en" ? "Imaging needed" : "Imágenes necesarias"}
           </label>
           <select
             id="imaging"
@@ -210,14 +251,14 @@ export function LeadForm() {
             required
             onChange={(e) => setShowAdditionalFields(e.target.value !== "")}
           >
-            <option value="">Select imaging type</option>
+            <option value="">{language === "en" ? "Select imaging type" : "Selecciona tipo de imagen"}</option>
             <option value="mri">MRI</option>
-            <option value="ct">CT scan</option>
+            <option value="ct">{language === "en" ? "CT scan" : "Tomografía (CT)"}</option>
             <option value="pet">PET</option>
-            <option value="ultrasound">Ultrasound</option>
-            <option value="xray">X-ray</option>
-            <option value="mammography">Mammography</option>
-            <option value="other">Other</option>
+            <option value="ultrasound">{language === "en" ? "Ultrasound" : "Ultrasonido"}</option>
+            <option value="xray">{language === "en" ? "X-ray" : "Rayos X"}</option>
+            <option value="mammography">{language === "en" ? "Mammography" : "Mamografía"}</option>
+            <option value="other">{language === "en" ? "Other" : "Otro"}</option>
           </select>
         </div>
 
@@ -225,30 +266,34 @@ export function LeadForm() {
           <div className="space-y-3 md:space-y-4">
             <div>
               <label htmlFor="bodyPart" className="block text-sm font-medium text-gray-700 mb-1">
-                Scan body part <span className="text-red-500">*</span>
+                {language === "en" ? "Scan body part " : "Parte del cuerpo a escanear "}
+                <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 id="bodyPart"
                 name="bodyPart"
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="e.g., left knee, spine, brain"
+                placeholder={
+                  language === "en" ? "e.g., left knee, spine, brain" : "ej., rodilla izquierda, columna, cerebro"
+                }
                 required
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Do you have a doctor's order? <span className="text-red-500">*</span>
+                {language === "en" ? "Do you have a doctor's order? " : "¿Tienes una orden médica? "}
+                <span className="text-red-500">*</span>
               </label>
               <div className="flex gap-4">
                 <div className="flex items-center">
                   <input type="radio" id="orderYes" name="doctorOrder" value="yes" className="mr-2" required />
-                  <label htmlFor="orderYes">Yes</label>
+                  <label htmlFor="orderYes">{language === "en" ? "Yes" : "Sí"}</label>
                 </div>
                 <div className="flex items-center">
                   <input type="radio" id="orderNo" name="doctorOrder" value="no" className="mr-2" />
-                  <label htmlFor="orderNo">No</label>
+                  <label htmlFor="orderNo">{language === "en" ? "No" : "No"}</label>
                 </div>
               </div>
             </div>
@@ -260,7 +305,13 @@ export function LeadForm() {
           disabled={isSubmitting}
           className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors disabled:opacity-70"
         >
-          {isSubmitting ? "Submitting..." : "Get affordable scan quotes now"}
+          {isSubmitting
+            ? language === "en"
+              ? "Submitting..."
+              : "Enviando..."
+            : language === "en"
+              ? "Get affordable scan quotes now"
+              : "Obtén cotizaciones asequibles ahora"}
         </button>
 
         <div className="text-center my-2">
@@ -272,13 +323,13 @@ export function LeadForm() {
             href={`tel:${phoneNumber}`}
             className="py-3 px-4 bg-white border border-blue-600 text-blue-600 font-medium rounded-md transition-colors hover:bg-blue-50 text-center"
           >
-            Call us
+            {language === "en" ? "Call us" : "Llámanos"}
           </a>
           <a
             href={`sms:${phoneNumber}`}
             className="py-3 px-4 bg-white border border-blue-600 text-blue-600 font-medium rounded-md transition-colors hover:bg-blue-50 text-center"
           >
-            Text us
+            {language === "en" ? "Text us" : "Envíanos un mensaje"}
           </a>
         </div>
       </form>
@@ -288,7 +339,7 @@ export function LeadForm() {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
             <div className="flex justify-between items-center p-4 border-b">
-              <h3 className="font-bold text-lg">Thank You!</h3>
+              <h3 className="font-bold text-lg">{language === "en" ? "Thank You!" : "¡Gracias!"}</h3>
               <button
                 onClick={closeThankYou}
                 className="text-gray-500 hover:bg-gray-100 rounded-full p-1"
@@ -310,22 +361,28 @@ export function LeadForm() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h4 className="text-xl font-bold mb-2">We've received your request!</h4>
+                <h4 className="text-xl font-bold mb-2">
+                  {language === "en" ? "We've received your request!" : "¡Hemos recibido tu solicitud!"}
+                </h4>
                 <p className="text-gray-600">
-                  Our team will reach out to you shortly with affordable scan options in your area.
+                  {language === "en"
+                    ? "Our team will reach out to you shortly with affordable scan options in your area."
+                    : "Nuestro equipo se pondrá en contacto contigo en breve con opciones de escaneo asequibles en tu área."}
                 </p>
               </div>
               <div className="bg-blue-50 p-4 rounded-md mb-4">
                 <p className="text-blue-800 text-sm">
-                  <strong>What happens next?</strong> A care coordinator will contact you within 24 hours to discuss
-                  your imaging needs and provide pricing options.
+                  <strong>{language === "en" ? "What happens next?" : "¿Qué sigue?"}</strong>{" "}
+                  {language === "en"
+                    ? "A care coordinator will contact you within 24 hours to discuss your imaging needs and provide pricing options."
+                    : "Un coordinador de atención se pondrá en contacto contigo dentro de las 24 horas para discutir tus necesidades de imágenes y proporcionar opciones de precios."}
                 </p>
               </div>
               <button
                 onClick={closeThankYou}
                 className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"
               >
-                Return to Homepage
+                {language === "en" ? "Return to Homepage" : "Volver a la página principal"}
               </button>
             </div>
           </div>
