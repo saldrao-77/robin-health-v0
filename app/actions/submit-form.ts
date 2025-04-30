@@ -10,6 +10,7 @@ export async function submitLeadForm(formData: any) {
     const imagingType = formData.imagingType
     const bodyPart = formData.bodyPart
     const hasOrder = formData.hasOrder
+    const fullName = formData.fullName
 
     // Extract UTM source from the request headers
     const headers = formData.headers || {}
@@ -24,6 +25,7 @@ export async function submitLeadForm(formData: any) {
       imaging_type: imagingType,
       body_part: bodyPart,
       has_order: hasOrder,
+      full_name: fullName,
       utm_source: utmSource,
     })
 
@@ -37,6 +39,7 @@ export async function submitLeadForm(formData: any) {
           imaging_type: imagingType,
           body_part: bodyPart,
           has_order: hasOrder,
+          full_name: fullName,
           processed: false,
           utm_source: utmSource,
         },

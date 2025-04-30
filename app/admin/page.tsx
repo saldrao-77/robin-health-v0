@@ -14,6 +14,7 @@ type LeadSubmission = {
   imaging_type: string
   body_part: string | null
   has_order: boolean | null
+  full_name: string | null
   created_at: string
   processed: boolean
   engaged: boolean
@@ -47,6 +48,7 @@ export default function AdminDashboard() {
     imaging_type: "mri",
     body_part: "",
     has_order: false,
+    full_name: "",
     status: "pending" as SubmissionStatus,
     notes: "",
     utm_source: "",
@@ -277,6 +279,7 @@ export default function AdminDashboard() {
             imaging_type: newSubmission.imaging_type,
             body_part: newSubmission.body_part || null,
             has_order: newSubmission.has_order,
+            full_name: newSubmission.full_name || null,
             processed,
             engaged,
             notes: newSubmission.notes || null,
@@ -296,6 +299,7 @@ export default function AdminDashboard() {
         imaging_type: "mri",
         body_part: "",
         has_order: false,
+        full_name: "",
         status: "pending",
         notes: "",
         utm_source: "",
@@ -339,6 +343,7 @@ export default function AdminDashboard() {
       "ID",
       "Zip Code",
       "Phone",
+      "Full Name",
       "Imaging Type",
       "Body Part",
       "Has Order",
@@ -357,6 +362,7 @@ export default function AdminDashboard() {
           sub.id,
           sub.zip_code,
           sub.phone,
+          sub.full_name || "",
           sub.imaging_type,
           sub.body_part || "",
           sub.has_order === null ? "" : sub.has_order ? "Yes" : "No",
@@ -609,6 +615,18 @@ export default function AdminDashboard() {
                   </select>
                 </div>
                 <div>
+                  <label htmlFor="full_name" className="block text-sm font-medium text-gray-700 mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="full_name"
+                    className="block w-full border border-gray-300 rounded-md p-2"
+                    value={newSubmission.full_name || ""}
+                    onChange={(e) => setNewSubmission({ ...newSubmission, full_name: e.target.value })}
+                  />
+                </div>
+                <div>
                   <label htmlFor="utm_source" className="block text-sm font-medium text-gray-700 mb-1">
                     UTM Source
                   </label>
@@ -792,6 +810,12 @@ export default function AdminDashboard() {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
+                        Full Name
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Imaging Details
                       </th>
                       <th
@@ -852,6 +876,9 @@ export default function AdminDashboard() {
                                 </span>
                               </div>
                             </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">{submission.full_name || "Not provided"}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">

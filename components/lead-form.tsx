@@ -108,6 +108,7 @@ export function LeadForm() {
       imagingType: formElement.imaging.value,
       bodyPart: showAdditionalFields ? formElement.bodyPart.value : undefined,
       hasOrder: showAdditionalFields ? formElement.doctorOrder.value === "yes" : undefined,
+      fullName: showAdditionalFields ? formElement.fullName.value : undefined,
       headers: {
         referer: window.location.href,
       },
@@ -165,7 +166,7 @@ export function LeadForm() {
           text:
             language === "en"
               ? "An unexpected error occurred. Please try again or contact us directly."
-              : "Ocurrió un error inesperado. Inténtelo de nuevo o contáctenos directamente.",
+              : "Ocurrió un error inesperado. Inténtelo de nuevo. Inténtelo de nuevo o contáctenos directamente.",
         })
       }
     } finally {
@@ -297,6 +298,21 @@ export function LeadForm() {
                 </div>
               </div>
             </div>
+
+            <div>
+              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
+                {language === "en" ? "Full name " : "Nombre completo "}
+                <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Sarah Brown"
+                required
+              />
+            </div>
           </div>
         )}
 
@@ -313,6 +329,11 @@ export function LeadForm() {
               ? "Get affordable scan quotes now"
               : "Obtén cotizaciones asequibles ahora"}
         </button>
+        <p className="text-gray-500 text-sm mt-2 text-center">
+          {language === "en"
+            ? "As soon as you submit our form, we start pulling pricing and will text you to confirm a few quick details before sending the best options ASAP."
+            : "Tan pronto como envíes nuestro formulario, comenzamos a obtener precios y te enviaremos un mensaje de texto para confirmar algunos detalles rápidos antes de enviarte las mejores opciones lo antes posible."}
+        </p>
 
         <div className="text-center my-2">
           <span className="text-gray-500 text-sm">— OR —</span>
@@ -361,21 +382,16 @@ export function LeadForm() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h4 className="text-xl font-bold mb-2">
-                  {language === "en" ? "We've received your request!" : "¡Hemos recibido tu solicitud!"}
-                </h4>
+                <h4 className="text-xl font-bold mb-2">{language === "en" ? "Thank You!" : "¡Gracias!"}</h4>
                 <p className="text-gray-600">
-                  {language === "en"
-                    ? "Our team will reach out to you shortly with affordable scan options in your area."
-                    : "Nuestro equipo se pondrá en contacto contigo en breve con opciones de escaneo asequibles en tu área."}
+                  {language === "en" ? "We have received your form." : "Hemos recibido tu formulario."}
                 </p>
               </div>
               <div className="bg-blue-50 p-4 rounded-md mb-4">
                 <p className="text-blue-800 text-sm">
-                  <strong>{language === "en" ? "What happens next?" : "¿Qué sigue?"}</strong>{" "}
                   {language === "en"
-                    ? "A care coordinator will contact you within 24 hours to discuss your imaging needs and provide pricing options."
-                    : "Un coordinador de atención se pondrá en contacto contigo dentro de las 24 horas para discutir tus necesidades de imágenes y proporcionar opciones de precios."}
+                    ? "Our care coordination will kick off on pulling scan prices near you now! We'll text you shortly to confirm a few quick details. Hang tight!"
+                    : "¡Nuestra coordinación de atención comenzará a buscar precios de escaneo cerca de ti ahora! Te enviaremos un mensaje de texto en breve para confirmar algunos detalles rápidos. ¡Espera un momento!"}
                 </p>
               </div>
               <button
