@@ -390,7 +390,7 @@ export function LeadForm() {
               <div className="bg-blue-50 p-4 rounded-md mb-4">
                 <p className="text-blue-800 text-sm">
                   {language === "en"
-                    ? "Our care coordination will kick off on pulling scan prices near you now! We'll text you shortly to confirm a few quick details. Hang tight!"
+                    ? "Our care coordination will kick off on pulling scan prices near you now! We'll call or text you shortly to confirm a few quick details. Hang tight!"
                     : "¡Nuestra coordinación de atención comenzará a buscar precios de escaneo cerca de ti ahora! Te enviaremos un mensaje de texto en breve para confirmar algunos detalles rápidos. ¡Espera un momento!"}
                 </p>
               </div>

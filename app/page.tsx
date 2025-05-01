@@ -692,8 +692,9 @@ export default function Home() {
 
                   <div className="bg-blue-100 p-4 rounded-md mb-6">
                     <p className="text-blue-600 font-medium text-lg">
-                      <span className="font-bold">100% Satisfaction Guarantee:</span> If we can't save you at least $100
-                      on your scan, we'll refund your $25 fee.
+                      <span className="font-bold">100% Satisfaction Guarantee:</span> If we don't save you at least $100
+                      compared to a price you've been quoted by an imaging center, we'll refund your $25 fee—no
+                      questions asked.
                     </p>
                   </div>
 
