@@ -324,7 +324,7 @@ export default function AboutPage() {
                         alt="Dr. Raj Rao, Chief Medical Officer"
                         width={600}
                         height={900}
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-cover"
                         style={{ objectPosition: "center 35%" }}
                       />
                     </div>
@@ -513,7 +513,7 @@ export default function AboutPage() {
                   <p className="text-xs md:text-sm uppercase tracking-wider text-gray-500 mb-1">
                     {language === "en" ? "Network of" : "Red de"}
                   </p>
-                  <p className="text-2xl md:text-4xl font-bold text-blue-600 mb-1">3,000+</p>
+                  <p className="text-2xl md:text-4xl font-bold text-blue-600 mb-1">1,000+</p>
                   <p className="text-base md:text-lg">
                     {language === "en" ? "local imaging centers" : "centros de imágenes locales"}
                   </p>

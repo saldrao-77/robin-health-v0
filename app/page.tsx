@@ -296,7 +296,7 @@ export default function Home() {
                   </svg>
                 </div>
                 <p className="text-sm uppercase tracking-wider text-gray-500 mb-1">Network of</p>
-                <p className="text-4xl font-bold text-blue-600 mb-1">3,000+</p>
+                <p className="text-4xl font-bold text-blue-600 mb-1">1,000+</p>
                 <p className="text-lg">local imaging centers</p>
               </div>
 
@@ -369,9 +369,9 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <p className="text-sm uppercase tracking-wider text-gray-500 mb-1">Helped</p>
-                <p className="text-4xl font-bold text-blue-600 mb-1">1,000+</p>
-                <p className="text-lg">patients in Texas</p>
+                <p className="text-sm uppercase tracking-wider text-gray-500 mb-1">Coverage in</p>
+                <p className="text-4xl font-bold text-blue-600 mb-1">100+</p>
+                <p className="text-lg">Texas zip codes</p>
               </div>
             </div>
 
