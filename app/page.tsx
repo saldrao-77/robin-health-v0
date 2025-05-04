@@ -371,7 +371,7 @@ export default function Home() {
                 </div>
                 <p className="text-sm uppercase tracking-wider text-gray-500 mb-1">Coverage in</p>
                 <p className="text-4xl font-bold text-blue-600 mb-1">100+</p>
-                <p className="text-lg">Texas zip codes</p>
+                <p className="text-lg">zip codes across Texas, Florida, and more</p>
               </div>
             </div>
 
