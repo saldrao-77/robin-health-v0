@@ -59,32 +59,28 @@ export default function AboutPage() {
 
   const logos = [
     {
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/stanford-logo-660x330-0oFIbBIU0WtkeTwnFUwINN8jy8rBNm.png",
+      src: "/images/stanford-logo.png",
       alt: "Stanford University",
     },
     {
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-d-school.jpg-O6IXBvDOyAmn0eeaCW7Nmrv58JHDjb.webp",
+      src: "/images/dschool-logo.png",
       alt: "Stanford d.school",
     },
     {
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mckinsey-logo_brandlogos.net_6tux8-ZuPS4NqrjI59MDaE7f7gMLMR2VLvbz.png",
+      src: "/images/mckinsey-logo.png",
       alt: "McKinsey & Company",
     },
     {
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/images-MIq1RSASYvz4GezEOqeYskq0EAydnh.png",
+      src: "/images/fda-logo.png",
       alt: "FDA",
     },
     {
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/US-WhiteHouse-Logo.svg-BwpIMr0MjkaPmwhw6DWPNDjnfgxlZh.png",
+      src: "/images/whitehouse-logo.png",
       alt: "White House",
     },
     {
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Senate-HELP.jpg-ThkRrk4hTDVz3y6TqJgn1nYHVkHjW8.jpeg",
+      src: "/images/senate-help-logo.png",
       alt: "Senate HELP Committee",
-    },
-    {
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/US_Department_of_Veterans_Affairs_logo.svg-L6wNLLjYfbZBZul4oKIYK2NAU2IdQg.png",
-      alt: "VA Hospital",
     },
   ]
 
@@ -208,7 +204,7 @@ export default function AboutPage() {
                 <div className="mt-6 flex flex-wrap justify-center gap-6">
                   <div className="bg-white p-4 rounded-lg shadow-sm">
                     <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/stanford-logo-660x330-9eehryVX2S4gcqCr9ZIAmE1uRKvXgh.png"
+                      src="/images/stanford-logo.png"
                       alt="Stanford University"
                       width={180}
                       height={90}
@@ -217,7 +213,7 @@ export default function AboutPage() {
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm">
                     <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/60ed115079e5542de90cd94c_D_School-Logo1-1024x597-OoSDih90a892L0qCgEQiIhs0JRiLvH.png"
+                      src="/images/dschool-logo.png"
                       alt="Stanford d.school"
                       width={180}
                       height={90}
@@ -226,7 +222,7 @@ export default function AboutPage() {
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm">
                     <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/GSB_CTRSOCIALINNOV_V_2C.jpg-XMntISH0plGV4p8Pk7OFebgD9UVJOF.jpeg"
+                      src="/images/stanford-center-social-innovation.png"
                       alt="Stanford Center for Social Innovation"
                       width={180}
                       height={90}
